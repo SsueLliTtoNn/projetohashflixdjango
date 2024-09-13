@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn hashflix.wsgi --log-file -
+python -m gunicorn hashflix.asgi:application -k uvicorn.workers.UvicornWorker
