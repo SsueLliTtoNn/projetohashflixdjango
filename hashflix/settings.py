@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(-)!t=aj*7_z-8_i9^v9a4zxpjp(l#ft+&lfwxs&mzg)pp3n7q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'TRUE') == "TRUE"
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','projetohashflixdjango-z2g6.onrender.com']
 
@@ -83,13 +84,10 @@ WSGI_APPLICATION = 'hashflix.wsgi.application'
 
 
 
-import dj_database_url
-
-
 if not DEBUG:
-    DATABASES = {'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
-        conn_max_age=600)}
+    DATABASES = {
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+}
 else:
     DATABASES = {
         'default': {
